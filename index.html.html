@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#121212">
+<title>Aprenda Inglês Cantando</title>
+<style>
+:root{
+  --bg:#121212;
+  --surface:#1E1E1E;
+  --surface2:#292929;
+  --border:#3d3d3d;
+  --green:#00FF66;
+  --green2:#1DB954;
+  --green-dark:#0b3d1f;
+  --text:#FFFFFF;
+  --muted:#BDBDBD;
+  --danger:#FF8A8A;
+  --fs:20px;
+}
+*{box-sizing:border-box}
+html{font-size:var(--fs);-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  line-height:1.55;font-size:1rem;
+}
+[hidden]{display:none !important}
+button,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--green);outline-offset:3px;border-radius:6px}
+
+.skip{position:absolute;left:-999px;top:0;background:var(--green);color:#000;padding:.6em 1em;z-index:100;font-weight:700}
+.skip:focus{left:8px;top:8px}
+
+/* ---------- Topo fixo ---------- */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  background:#121212;border-bottom:2px solid var(--green2);
+  padding:.5em .8em .6em;
+  font-size:calc(17px + (var(--fs) - 20px) * .4);
+}
+.topbar-row,.mode-row{display:flex;align-items:center;justify-content:space-between;gap:.6em;flex-wrap:wrap}
+.brand{margin:0;font-size:1.1em;color:var(--green);font-weight:800;letter-spacing:.2px}
+.font-controls{display:flex;align-items:center;gap:.4em}
+.font-controls .pct{min-width:3.2em;text-align:center;font-weight:700;color:var(--muted)}
+.fbtn{
+  min-width:2.8em;min-height:2.8em;padding:.2em .5em;border-radius:.7em;
+  background:var(--surface2);border:2px solid var(--green);color:var(--green);
+  font-weight:800;cursor:pointer;font-size:1em;
+}
+.fbtn:hover:not(:disabled){background:var(--green);color:#000}
+.fbtn:disabled{opacity:.4;cursor:not-allowed;border-color:var(--border);color:var(--muted)}
+.mode-row{justify-content:center;margin-top:.35em}
+.mode-label{
+  background:none;border:0;color:var(--muted);font-weight:700;cursor:pointer;
+  padding:.3em .6em;min-height:2.8em;border-radius:.7em;
+}
+.mode-label[aria-pressed="true"]{color:var(--green);text-decoration:underline;text-underline-offset:.25em;text-decoration-thickness:3px}
+.switch{
+  position:relative;width:3.4em;height:1.9em;border-radius:999px;border:2px solid var(--green);
+  background:#2a2a2a;cursor:pointer;padding:0;flex:none;
+}
+.switch .knob{position:absolute;top:.2em;left:.22em;width:1.3em;height:1.3em;border-radius:50%;background:var(--green);transition:transform .2s}
+.switch[aria-checked="true"]{background:var(--green-dark)}
+.switch[aria-checked="true"] .knob{transform:translateX(1.5em)}
+
+/* ---------- Layout ---------- */
+main{max-width:1200px;margin:0 auto;padding:1rem .9rem 3rem}
+.song-info{margin:.2rem 0 1rem}
+.song-info h2{margin:0;font-size:1.5rem;color:var(--text)}
+.song-info p{margin:.1rem 0 0;color:var(--muted)}
+.layout{display:grid;gap:1.1rem;grid-template-columns:1fr}
+@media (min-width:900px){
+  .layout{grid-template-columns:minmax(320px,1fr) minmax(0,1.15fr);align-items:start}
+  .video-col{position:sticky;top:calc(var(--header-h,110px) + 12px)}
+}
+.video-wrap{
+  width:100%;aspect-ratio:16/9;background:#000;border-radius:14px;overflow:hidden;
+  border:2px solid var(--border);
+}
+.video-wrap iframe{width:100%;height:100%;border:0;display:block}
+.player-tools{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.7rem}
+.msg{margin:.7rem 0 0;padding:.7rem .9rem;border-radius:10px;background:#3a1a1a;border:2px solid var(--danger);color:#fff}
+.msg a{color:var(--green)}
+
+/* ---------- Aviso de protocolo file:// ---------- */
+.file-notice{
+  border:2px solid var(--green2);border-radius:16px;padding:1.2rem 1.2rem 1.3rem;text-align:center;
+  background:linear-gradient(160deg,#16231b 0%,var(--surface) 70%);
+  box-shadow:0 0 0 1px rgba(0,255,102,.08),0 10px 30px rgba(0,0,0,.45);
+}
+.file-notice .fn-icon{
+  width:3.6rem;height:3.6rem;margin:0 auto .6rem;border-radius:50%;display:grid;place-items:center;
+  background:var(--green-dark);border:2px solid var(--green);color:var(--green);font-size:1.5rem;
+}
+.file-notice h3{margin:.1rem 0 .5rem;font-size:1.25rem;color:var(--text)}
+.file-notice p{margin:.4rem 0;color:#E0E0E0}
+.file-notice code{background:#000;color:var(--green);padding:.1em .4em;border-radius:6px;font-size:.9em}
+.file-notice .fn-actions{margin:1rem 0 .3rem;display:flex;flex-direction:column;align-items:center;gap:.4rem}
+a.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;text-decoration:none}
+.clock{display:inline-block;min-width:3.6rem;text-align:center;font-weight:900;font-size:1.3rem;color:var(--green);font-variant-numeric:tabular-nums}
+.file-notice .fn-from{color:var(--muted);font-size:.9rem;min-height:1.3em}
+.file-notice details{margin-top:.9rem;text-align:left;background:var(--bg);border:2px solid var(--border);border-radius:12px;padding:.3rem .9rem}
+.file-notice summary{cursor:pointer;min-height:2.6rem;display:flex;align-items:center;font-weight:800;color:var(--green)}
+.file-notice ol{margin:.2rem 0 .6rem;padding-left:1.3rem}
+.file-notice li{margin:.35rem 0}
+
+/* ---------- Componentes ---------- */
+.card{
+  background:var(--surface);border:2px solid var(--border);border-radius:16px;
+  padding:1.1rem 1.1rem 1.2rem;margin-bottom:1rem;
+}
+.card h3{margin:0 0 .6rem;font-size:1.1rem;color:var(--green)}
+.label{margin:1rem 0 .15rem;font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:var(--green2);font-weight:800}
+.label:first-of-type{margin-top:.2rem}
+.english{margin:.1rem 0;font-size:1.75rem;font-weight:800;line-height:1.3;color:var(--text)}
+.pt{margin:.1rem 0;font-size:1.2rem;color:#E8E8E8}
+.tip{margin-top:1rem;padding:.8rem 1rem;border-left:6px solid var(--green);background:var(--surface2);border-radius:0 12px 12px 0}
+.tip .label{margin-top:0}
+.tip p{margin:.15rem 0 0;font-size:1.3rem;font-weight:700;color:var(--green);letter-spacing:.02em}
+
+.btn{
+  min-height:2.8rem;padding:.55rem 1.1rem;border-radius:12px;cursor:pointer;
+  background:var(--surface2);border:2px solid var(--green);color:var(--green);font-weight:800;
+}
+.btn:hover:not(:disabled){background:var(--green-dark)}
+.btn.primary{background:var(--green);color:#000}
+.btn.primary:hover:not(:disabled){background:#5dff9b}
+.btn:disabled{opacity:.45;cursor:not-allowed;border-color:var(--border);color:var(--muted);background:var(--surface2)}
+.row{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center}
+
+.progress{display:flex;flex-wrap:wrap;gap:.4rem 1.2rem;align-items:center;color:var(--muted);font-weight:700;margin-bottom:.6rem}
+.progress strong{color:var(--green)}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}
+.chip{
+  min-width:2.8rem;min-height:2.8rem;border-radius:999px;background:var(--surface2);
+  border:2px solid var(--border);font-weight:800;cursor:pointer;padding:0 .7rem;
+}
+.chip[aria-current="step"]{background:var(--green);color:#000;border-color:var(--green)}
+.chip.done::after{content:" ✓"}
+
+.pills{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.3rem}
+.pill{
+  min-height:2.6rem;padding:.3rem 1rem;border-radius:999px;cursor:pointer;font-weight:800;
+  background:var(--surface2);border:2px solid var(--green2);color:var(--text);font-size:1.05rem;
+}
+.pill[aria-pressed="true"]{background:var(--green);color:#000;border-color:var(--green)}
+.meaning{margin-top:.6rem;min-height:1.6em;padding:.6rem .9rem;border-radius:10px;background:var(--surface2);color:#EDEDED}
+
+.options{display:grid;gap:.6rem;margin-top:.8rem}
+.opt{
+  min-height:3rem;text-align:left;padding:.6rem 1rem;border-radius:12px;cursor:pointer;
+  background:var(--surface2);border:2px solid var(--border);font-size:1.1rem;font-weight:700;
+}
+.opt:hover:not(:disabled){border-color:var(--green)}
+.opt.correct{background:var(--green-dark);border-color:var(--green);color:var(--green)}
+.opt.correct::before{content:"✅ "}
+.opt.wrong{border-color:var(--danger);color:var(--danger);text-decoration:line-through;opacity:.8}
+.opt.wrong::before{content:"❌ "}
+.feedback{min-height:1.6em;margin:.8rem 0 0;font-weight:800}
+.feedback.ok{color:var(--green)}
+.feedback.bad{color:var(--danger)}
+.nav{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:space-between;margin-top:1rem}
+.lock{margin:.6rem 0 0;color:var(--muted);font-size:.9rem}
+
+.finish{text-align:center;border-color:var(--green)}
+.finish h3{font-size:1.5rem}
+
+/* ---------- Karaokê ---------- */
+.opts{border:2px solid var(--border);border-radius:14px;margin:0 0 .8rem;padding:.5rem .9rem .8rem;background:var(--surface)}
+.opts legend{padding:0 .4rem;color:var(--green);font-weight:800}
+.check{display:flex;align-items:center;gap:.6rem;min-height:2.6rem;cursor:pointer;font-weight:700}
+.check input{width:1.4rem;height:1.4rem;accent-color:var(--green)}
+.sync{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;margin-bottom:.8rem;color:var(--muted)}
+.sync output{min-width:4.5rem;text-align:center;font-weight:800;color:var(--green)}
+.sync .btn{min-height:2.5rem;padding:.3rem .8rem}
+.lyrics{
+  list-style:none;margin:0;padding:.5rem;position:relative;
+  height:min(62vh,34rem);overflow-y:auto;overscroll-behavior:contain;
+  background:var(--surface);border:2px solid var(--border);border-radius:16px;
+  scrollbar-color:var(--green2) var(--surface2);
+}
+.lyrics li{margin:0}
+.lyric{
+  display:block;width:100%;text-align:left;background:none;border:0;border-left:6px solid transparent;
+  padding:.7rem .9rem;border-radius:10px;cursor:pointer;color:var(--muted);
+}
+.lyric:hover{background:var(--surface2)}
+.lyric span{display:block}
+.ly-en{font-size:1.2rem;font-weight:700;transition:font-size .25s,color .25s}
+.ly-pt{font-size:.95rem;margin-top:.15rem;color:#CFCFCF}
+.ly-tip{font-size:.95rem;margin-top:.1rem;color:#8FE9B2;font-style:italic}
+.ly-pt:empty,.ly-tip:empty{display:none}
+.hide-tr .ly-pt{display:none}
+.hide-tip .ly-tip{display:none}
+.lyric.active{
+  background:#14261c;border-left-color:var(--green);color:var(--green);
+}
+.lyric.active .ly-en{font-size:1.9rem;font-weight:900;color:var(--green);text-shadow:0 0 14px rgba(0,255,102,.35)}
+.lyric.active .ly-pt{color:#fff;font-size:1.05rem}
+.lyric.active .ly-tip{color:#B5FFD0;font-size:1.05rem}
+
+/* ---------- Carregar música ---------- */
+details.loader{margin-top:1.4rem;background:var(--surface);border:2px solid var(--border);border-radius:16px;padding:.4rem 1rem}
+details.loader summary{cursor:pointer;min-height:2.8rem;display:flex;align-items:center;font-weight:800;color:var(--green)}
+.field{display:block;margin:.8rem 0}
+.field span{display:block;font-weight:700;margin-bottom:.25rem}
+.field input,.field textarea{
+  width:100%;background:var(--bg);border:2px solid var(--border);border-radius:10px;padding:.6rem .8rem;
+}
+.field textarea{min-height:12rem;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.8rem;line-height:1.4}
+.loader .hint{color:var(--muted);font-size:.9rem;margin:.2rem 0}
+.loader .status{font-weight:800;min-height:1.5em}
+.loader .status.ok{color:var(--green)}
+.loader .status.bad{color:var(--danger)}
+
+@media (max-width:600px){
+  .english{font-size:1.5rem}
+  .lyric.active .ly-en{font-size:1.6rem}
+  .lyrics{height:min(56vh,30rem)}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none !important;scroll-behavior:auto !important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Ir para o conteúdo</a>
+
+<header class="topbar" id="topbar">
+  <div class="topbar-row">
+    <h1 class="brand">🎵 Aprenda Inglês Cantando</h1>
+    <div class="font-controls" role="group" aria-label="Tamanho da fonte">
+      <button class="fbtn" id="fontDec" type="button" aria-label="Diminuir tamanho da fonte">A−</button>
+      <span class="pct" id="fontLabel" aria-live="polite">100%</span>
+      <button class="fbtn" id="fontInc" type="button" aria-label="Aumentar tamanho da fonte">A+</button>
+    </div>
+  </div>
+  <div class="mode-row" role="group" aria-label="Modo de jogo">
+    <button class="mode-label" id="lblStudy" type="button" aria-pressed="true">📘 Estudo</button>
+    <button class="switch" id="modeSwitch" type="button" role="switch" aria-checked="false" aria-label="Ativar modo Karaokê">
+      <span class="knob"></span>
+    </button>
+    <button class="mode-label" id="lblKaraoke" type="button" aria-pressed="false">🎤 Karaokê</button>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+  <noscript><p class="msg">Este aplicativo precisa de JavaScript para funcionar.</p></noscript>
+
+  <section class="song-info" aria-live="polite">
+    <h2 id="songTitle">Carregando…</h2>
+    <p id="songArtist"></p>
+  </section>
+
+  <div class="layout">
+    <!-- Vídeo -->
+    <section class="video-col" aria-label="Vídeo da música">
+      <div class="video-wrap" id="videoWrap"><div id="player"></div></div>
+
+      <div class="file-notice" id="fileNotice" role="region" aria-labelledby="fnTitle" hidden>
+        <div class="fn-icon" aria-hidden="true">▶</div>
+        <h3 id="fnTitle">O player não funciona neste modo de abertura</h3>
+        <p>Abriste o arquivo diretamente do computador (<code>file://</code>) e o YouTube bloqueia o player nesse caso (erro 153).</p>
+        <p>Os textos, o vocabulário e os exercícios continuam funcionando, e o Karaokê passa a usar um <strong>cronômetro manual</strong>. Para ouvir a música, abre o vídeo no YouTube:</p>
+        <div class="fn-actions">
+          <a class="btn primary" id="ytOpen" href="#" target="_blank" rel="noopener">▶ Abrir vídeo no YouTube</a>
+          <span class="fn-from" id="ytFrom" aria-live="polite"></span>
+        </div>
+        <details>
+          <summary>Quero o player dentro do app (sem Python)</summary>
+          <p>O player só funciona quando a página é aberta por <code>http://</code> ou <code>https://</code>. Algumas opções que não precisam de Python:</p>
+          <ol>
+            <li><strong>Hospedar grátis:</strong> publicar o arquivo no GitHub Pages, Netlify ou Cloudflare Pages. Deves renomeá-lo para <code>index.html</code>.</li>
+            <li><strong>VS Code:</strong> com a extensão <em>Live Server</em>, clica com o botão direito no arquivo e escolhe "Open with Live Server".</li>
+            <li><strong>Node.js:</strong> se o tiveres instalado, executa <code>npx serve</code> na pasta do arquivo.</li>
+          </ol>
+        </details>
+      </div>
+
+      <div class="player-tools">
+        <button class="btn" id="btnSpeed" type="button">🐢 Velocidade: 1×</button>
+      </div>
+      <div id="playerMsg" class="msg" role="alert" hidden></div>
+    </section>
+
+    <!-- Conteúdo -->
+    <section class="content-col">
+
+      <!-- MODO ESTUDO -->
+      <div id="studyView">
+        <div class="progress" aria-live="polite">
+          <span>Frase <strong id="stIdx">1</strong> de <strong id="stTotal">4</strong></span>
+          <span>⭐ Pontos: <strong id="stScore">0</strong></span>
+        </div>
+        <nav class="chips" id="chips" aria-label="Escolher frase"></nav>
+
+        <article class="card" id="phraseCard" aria-label="Cartão da frase">
+          <div class="row">
+            <button class="btn primary" id="btnPlayPhrase" type="button">▶ Ouvir frase</button>
+            <button class="btn" id="btnPausePhrase" type="button">⏸ Pausar</button>
+          </div>
+          <p class="sr-only" id="playStatus" role="status" aria-live="polite" style="position:absolute;left:-9999px"></p>
+          <p class="label">🇺🇸 Inglês</p>
+          <p class="english" id="enText" lang="en"></p>
+          <p class="label">🇧🇷 Português</p>
+          <p class="pt" id="ptText"></p>
+          <div class="tip">
+            <p class="label">🎤 Guia de canto</p>
+            <p id="tipText"></p>
+          </div>
+          <div id="vocabBlock">
+            <p class="label">📚 Vocabulário (toque na palavra)</p>
+            <div class="pills" id="vocabPills"></div>
+            <div class="meaning" id="vocabMeaning" aria-live="polite">Toque em uma palavra para ver o significado.</div>
+          </div>
+        </article>
+
+        <article class="card" id="exerciseCard" aria-label="Micro-exercício">
+          <h3>✍️ Micro-exercício</h3>
+          <p id="exQuestion" style="font-size:1.2rem;font-weight:700;margin:0"></p>
+          <div class="options" id="exOptions" role="group" aria-label="Opções de resposta"></div>
+          <p class="feedback" id="exFeedback" role="status" aria-live="polite"></p>
+        </article>
+
+        <div class="nav">
+          <button class="btn" id="btnPrev" type="button">◀ Anterior</button>
+          <button class="btn primary" id="btnNext" type="button">Próxima frase ▶</button>
+        </div>
+        <p class="lock" id="lockHint">🔒 Acerte o exercício para liberar a próxima frase.</p>
+
+        <article class="card finish" id="finishCard" hidden tabindex="-1" aria-live="polite">
+          <h3>🎉 Parabéns!</h3>
+          <p id="finishText"></p>
+          <div class="row" style="justify-content:center">
+            <button class="btn" id="btnRestart" type="button">🔁 Recomeçar</button>
+            <button class="btn primary" id="btnGoKaraoke" type="button">🎤 Ir para o Karaokê</button>
+          </div>
+        </article>
+      </div>
+
+      <!-- MODO KARAOKÊ -->
+      <div id="karaokeView" hidden>
+        <div class="row" style="margin-bottom:.8rem">
+          <button class="btn primary" id="kPlay" type="button">▶ Tocar</button>
+          <button class="btn" id="kRestart" type="button">⏮ Do início</button>
+          <output class="clock" id="kClock" hidden aria-label="Cronômetro do Karaokê">0:00</output>
+          <a class="btn" id="kOpenYt" href="#" target="_blank" rel="noopener" hidden>▶ Abrir no YouTube</a>
+        </div>
+        <fieldset class="opts">
+          <legend>Mostrar na tela</legend>
+          <label class="check"><input type="checkbox" id="optTr" checked> Tradução em português</label>
+          <label class="check"><input type="checkbox" id="optTip" checked> Dica de pronúncia</label>
+          <label class="check"><input type="checkbox" id="optScroll" checked> Rolagem automática</label>
+        </fieldset>
+        <div class="sync" role="group" aria-label="Ajuste de sincronia da letra">
+          <span>Sincronia da letra:</span>
+          <button class="btn" id="offMinus" type="button" aria-label="Atrasar a letra em meio segundo">− 0,5 s</button>
+          <output id="offVal" aria-live="polite">0,0 s</output>
+          <button class="btn" id="offPlus" type="button" aria-label="Adiantar a letra em meio segundo">+ 0,5 s</button>
+        </div>
+        <ul class="lyrics" id="lyrics" aria-label="Letra da música"></ul>
+      </div>
+    </section>
+  </div>
+
+  <!-- Carregar outra música -->
+  <details class="loader">
+    <summary>➕ Carregar outra música (JSON)</summary>
+    <p class="hint">Cole um JSON com a lista de frases (ou um objeto com <code>title</code>, <code>artist</code>, <code>youtubeId</code> e <code>lines</code>). Campos obrigatórios por frase: <code>start_time</code>, <code>end_time</code> e <code>english</code>.</p>
+    <label class="field"><span>ID ou link do vídeo no YouTube</span>
+      <input id="inVideo" type="text" placeholder="fJ9rUzIMcZQ" autocomplete="off"></label>
+    <label class="field"><span>Título (opcional)</span>
+      <input id="inTitle" type="text" autocomplete="off"></label>
+    <label class="field"><span>Artista (opcional)</span>
+      <input id="inArtist" type="text" autocomplete="off"></label>
+    <label class="field"><span>JSON das frases</span>
+      <textarea id="inJson" spellcheck="false"></textarea></label>
+    <div class="row">
+      <button class="btn primary" id="btnLoad" type="button">Carregar música</button>
+      <button class="btn" id="btnDefault" type="button">Restaurar Bohemian Rhapsody</button>
+    </div>
+    <p class="status" id="loadStatus" role="status" aria-live="polite"></p>
+  </details>
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  /* =====================================================
+     DADOS PADRÃO (estrutura JSON flexível)
+     ===================================================== */
+  var DEFAULT_SONG = {
+    title: 'Bohemian Rhapsody',
+    artist: 'Queen',
+    youtubeId: 'fJ9rUzIMcZQ',
+    lines: [
+      {
+        id: 1, start_time: 0, end_time: 4,
+        english: 'Is this the real life?',
+        portuguese: 'Isso é a vida real?',
+        singing_tip: 'iz-dis-da riu laif?',
+        vocabulary: [{ word: 'real', meaning: 'real, verdadeiro' }],
+        exercise: { question: 'Preencha: Is this the ____ life?', options: ['real', 'fake', 'true'], answer: 'real' }
+      },
+      {
+        id: 2, start_time: 5, end_time: 8,
+        english: 'Is this just fantasy?',
+        portuguese: 'Isso é apenas fantasia?',
+        singing_tip: 'iz-dis-djast fan-ta-si?',
+        vocabulary: [{ word: 'just', meaning: 'apenas, só' }],
+        exercise: { question: "O que significa 'just' nesta frase?", options: ['apenas', 'justo', 'quase'], answer: 'apenas' }
+      },
+      {
+        id: 3, start_time: 9, end_time: 13,
+        english: 'Caught in a landslide,',
+        portuguese: 'Preso em um deslizamento de terra,',
+        singing_tip: 'kót-i-na lend-slaid',
+        vocabulary: [{ word: 'landslide', meaning: 'deslizamento de terra / avalanche' }],
+        exercise: { question: "Qual palavra indica estar 'preso'?", options: ['Caught', 'Landslide', 'Fantasy'], answer: 'Caught' }
+      },
+      {
+        id: 4, start_time: 14, end_time: 18,
+        english: 'No escape from reality.',
+        portuguese: 'Sem escapatória da realidade.',
+        singing_tip: 'no es-keip fróm ri-e-li-ti',
+        vocabulary: [{ word: 'escape', meaning: 'fuga, escapatória' }],
+        exercise: { question: 'Preencha: No ____ from reality.', options: ['escape', 'entry', 'way'], answer: 'escape' }
+      }
+    ]
+  };
+
+  /* =====================================================
+     UTILITÁRIOS
+     ===================================================== */
+  function $(id) { return document.getElementById(id); }
+  var store = {
+    get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) { /* ignora */ } }
+  };
+  function el(tag, props) {
+    var n = document.createElement(tag);
+    props = props || {};
+    Object.keys(props).forEach(function (k) {
+      var v = props[k];
+      if (k === 'class') n.className = v;
+      else if (k === 'text') n.textContent = v;
+      else n.setAttribute(k, v);
+    });
+    for (var i = 2; i < arguments.length; i++) n.append(arguments[i]);
+    return n;
+  }
+  function shuffle(a) {
+    a = a.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function fmtOffset(v) { return (v > 0 ? '+' : '') + v.toFixed(1).replace('.', ',') + ' s'; }
+
+  /* =====================================================
+     ESTADO
+     ===================================================== */
+  var song = null;
+  var mode = 'study';           // 'study' | 'karaoke'
+  var idx = 0;                  // frase atual (estudo)
+  var exState = {};             // estado dos exercícios por id
+  var player = null, ready = false, playerState = -1;
+  var phrase = { active: false, armed: false, t0: 0 };
+  var rates = [1, 0.75, 0.5], rateIdx = 0;
+  var offset = 0;               // sincronia da letra (segundos)
+  var activeLine = -2;
+  var scrollPausedUntil = 0;
+
+  /* =====================================================
+     TAMANHO DA FONTE
+     ===================================================== */
+  var FS_MIN = 14, FS_MAX = 34, FS_STEP = 2, FS_DEF = 20;
+  var fs = parseInt(store.get('fs'), 10);
+  if (!fs || fs < FS_MIN || fs > FS_MAX) fs = FS_DEF;
+
+  function updateHeaderHeight() {
+    var h = $('topbar').offsetHeight;
+    document.documentElement.style.setProperty('--header-h', h + 'px');
+  }
+  function applyFont() {
+    document.documentElement.style.setProperty('--fs', fs + 'px');
+    $('fontLabel').textContent = Math.round(fs / FS_DEF * 100) + '%';
+    $('fontDec').disabled = fs <= FS_MIN;
+    $('fontInc').disabled = fs >= FS_MAX;
+    store.set('fs', String(fs));
+    requestAnimationFrame(function () { updateHeaderHeight(); scrollToActive(true); });
+  }
+  $('fontDec').addEventListener('click', function () { fs = Math.max(FS_MIN, fs - FS_STEP); applyFont(); });
+  $('fontInc').addEventListener('click', function () { fs = Math.min(FS_MAX, fs + FS_STEP); applyFont(); });
+
+  /* =====================================================
+     VALIDAÇÃO / NORMALIZAÇÃO DO JSON
+     ===================================================== */
+  function parseVideoId(v) {
+    v = String(v || '').trim();
+    var m = v.match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([\w-]{11})/);
+    if (m) return m[1];
+    if (/^[\w-]{11}$/.test(v)) return v;
+    return '';
+  }
+  function normalize(raw, fallbackVideo) {
+    var meta = {};
+    var lines = raw;
+    if (raw && !Array.isArray(raw) && typeof raw === 'object') {
+      meta = raw;
+      lines = raw.lines || raw.phrases || raw.frases;
+    }
+    if (!Array.isArray(lines) || !lines.length) throw new Error('O JSON precisa conter uma lista de frases.');
+    var out = lines.map(function (l, i) {
+      var n = i + 1;
+      if (!l || typeof l.english !== 'string' || !l.english.trim()) throw new Error('Frase ' + n + ': falta o campo "english".');
+      var s = Number(l.start_time), e = Number(l.end_time);
+      if (!isFinite(s) || !isFinite(e)) throw new Error('Frase ' + n + ': "start_time" e "end_time" devem ser números.');
+      if (e <= s) throw new Error('Frase ' + n + ': "end_time" deve ser maior que "start_time".');
+      var ex = null;
+      if (l.exercise && l.exercise.question && Array.isArray(l.exercise.options) && l.exercise.options.length > 1 && l.exercise.answer) {
+        if (l.exercise.options.indexOf(l.exercise.answer) === -1) throw new Error('Frase ' + n + ': a "answer" do exercício não está nas "options".');
+        ex = { question: String(l.exercise.question), options: l.exercise.options.map(String), answer: String(l.exercise.answer) };
+      }
+      return {
+        id: l.id != null ? l.id : n,
+        start_time: s, end_time: e,
+        english: l.english.trim(),
+        portuguese: l.portuguese ? String(l.portuguese) : '',
+        singing_tip: l.singing_tip ? String(l.singing_tip) : '',
+        vocabulary: Array.isArray(l.vocabulary) ? l.vocabulary.filter(function (v) { return v && v.word; }) : [],
+        exercise: ex
+      };
+    });
+    out.sort(function (a, b) { return a.start_time - b.start_time; });
+    var vid = parseVideoId(meta.youtubeId || meta.videoId || fallbackVideo);
+    if (!vid) throw new Error('Informe um ID ou link válido do YouTube.');
+    return {
+      title: meta.title || 'Música personalizada',
+      artist: meta.artist || '',
+      youtubeId: vid,
+      lines: out
+    };
+  }
+
+  /* =====================================================
+     PLAYER DO YOUTUBE
+     ===================================================== */
+  var YT_PLAYING = 1;
+  function showPlayerMsg(html) {
+    var m = $('playerMsg');
+    if (!html) { m.hidden = true; m.textContent = ''; return; }
+    m.hidden = false;
+    m.textContent = '';
+    m.append(html);
+  }
+  function ytLink() {
+    var a = el('a', { href: 'https://www.youtube.com/watch?v=' + song.youtubeId, target: '_blank', rel: 'noopener', text: 'Abrir no YouTube' });
+    return a;
+  }
+
+  window.onYouTubeIframeAPIReady = function () {
+    var vars = { playsinline: 1, rel: 0, modestbranding: 1, controls: 1 };
+    if (/^https?:$/.test(location.protocol)) vars.origin = location.origin;
+    try {
+      player = new YT.Player('player', {
+        width: '100%', height: '100%',
+        videoId: song.youtubeId,
+        playerVars: vars,
+        events: { onReady: onPlayerReady, onStateChange: onPlayerState, onError: onPlayerError }
+      });
+    } catch (e) {
+      showPlayerMsg('Não foi possível iniciar o player do YouTube.');
+    }
+  };
+  /* Protocolo file://: o YouTube recusa o player (erro 153). Não carregamos a API. */
+  var IS_FILE = location.protocol === 'file:';
+
+  function ytUrl(sec) {
+    var u = 'https://www.youtube.com/watch?v=' + encodeURIComponent(song.youtubeId);
+    if (sec > 0) u += '&t=' + Math.floor(sec) + 's';
+    return u;
+  }
+  function updateYtLink() {
+    if (!IS_FILE || !song) return;
+    var sec = (mode === 'study' && song.lines[idx]) ? song.lines[idx].start_time : 0;
+    $('ytOpen').href = ytUrl(sec);
+    $('kOpenYt').href = ytUrl(0);
+    var m = Math.floor(sec / 60), s = Math.floor(sec % 60);
+    $('ytFrom').textContent = sec > 0 ? 'Abre já em ' + m + ':' + (s < 10 ? '0' : '') + s + ' (início da frase atual)' : '';
+  }
+  /* Cronômetro manual do Karaokê (usado só quando não há player) */
+  var manual = { running: false, base: 0, t0: 0 };
+  function manualTime() {
+    return manual.running ? manual.base + (performance.now() - manual.t0) / 1000 : manual.base;
+  }
+  function manualSet(sec, run) {
+    manual.base = Math.max(0, sec);
+    manual.t0 = performance.now();
+    manual.running = !!run;
+  }
+  function fmtClock(sec) {
+    var m = Math.floor(sec / 60), s = Math.floor(sec % 60);
+    return m + ':' + (s < 10 ? '0' : '') + s;
+  }
+  function refreshManualUI() {
+    $('kPlay').textContent = manual.running ? '⏸ Pausar cronômetro' : '▶ Iniciar cronômetro';
+    $('kClock').textContent = fmtClock(manualTime());
+  }
+
+  function setupFileMode() {
+    $('videoWrap').hidden = true;
+    $('fileNotice').hidden = false;
+    $('btnSpeed').hidden = true;
+    $('kClock').hidden = false;
+    $('kOpenYt').hidden = false;
+    $('kRestart').textContent = '⏮ Zerar e iniciar';
+    refreshManualUI();
+    ['btnPlayPhrase', 'btnPausePhrase'].forEach(function (id) {
+      var b = $(id);
+      b.disabled = true;
+      b.title = 'Indisponível: o player não funciona com file://';
+    });
+    var hint = el('p', { class: 'lock', text: 'ℹ️ Sem o player, o Karaokê usa um cronômetro. Abre o vídeo no YouTube e toca em "Iniciar cronômetro" no instante em que a música começar. Se a letra ficar adiantada ou atrasada, ajusta a "Sincronia". Tocar numa frase move o cronômetro até ela.' });
+    $('karaokeView').insertBefore(hint, $('karaokeView').firstChild);
+    updateYtLink();
+  }
+
+  (function loadApi() {
+    if (IS_FILE) return;
+    var s = document.createElement('script');
+    s.src = 'https://www.youtube.com/iframe_api';
+    s.onerror = function () {
+      showPlayerMsg('Não foi possível carregar o YouTube. Verifique sua conexão com a internet e recarregue a página.');
+    };
+    document.head.appendChild(s);
+  })();
+
+  function onPlayerReady() {
+    ready = true;
+    showPlayerMsg('');
+  }
+  function onPlayerState(e) {
+    playerState = e.data;
+    var playing = playerState === YT_PLAYING;
+    $('kPlay').textContent = playing ? '⏸ Pausar' : '▶ Tocar';
+    if (playing) applyRate();
+  }
+  function onPlayerError(e) {
+    var box = document.createElement('span');
+    var c = e.data;
+    var txt;
+    if (c === 101 || c === 150) txt = 'O dono do vídeo não permite a reprodução em outros sites. ';
+    else if (c === 100) txt = 'Vídeo não encontrado ou indisponível. ';
+    else if (c === 153) txt = 'O YouTube recusou o player (erro 153). Abra o app por um endereço http(s) (hospedagem ou servidor local) em vez de abrir o arquivo direto. ';
+    else txt = 'Erro ao reproduzir o vídeo (código ' + c + '). ';
+    box.append(txt, ytLink());
+    showPlayerMsg(box);
+  }
+  function applyRate() {
+    if (ready && player && player.setPlaybackRate) {
+      try { player.setPlaybackRate(rates[rateIdx]); } catch (e) { /* ignora */ }
+    }
+  }
+  $('btnSpeed').addEventListener('click', function () {
+    rateIdx = (rateIdx + 1) % rates.length;
+    $('btnSpeed').textContent = '🐢 Velocidade: ' + String(rates[rateIdx]).replace('.', ',') + '×';
+    applyRate();
+  });
+
+  function cueAt(sec) {
+    if (!ready) return;
+    player.cueVideoById({ videoId: song.youtubeId, startSeconds: sec });
+  }
+
+  /* =====================================================
+     MODO ESTUDO
+     ===================================================== */
+  function cur() { return song.lines[idx]; }
+
+  function buildChips() {
+    var box = $('chips');
+    box.replaceChildren();
+    song.lines.forEach(function (l, i) {
+      var st = exState[l.id];
+      var done = st && st.done;
+      var b = el('button', {
+        class: 'chip' + (done ? ' done' : ''), type: 'button',
+        'aria-label': 'Frase ' + (i + 1) + (done ? ', concluída' : '')
+      });
+      b.textContent = String(i + 1);
+      if (i === idx) b.setAttribute('aria-current', 'step');
+      b.addEventListener('click', function () { selectPhrase(i, true); });
+      box.append(b);
+    });
+  }
+
+  function score() {
+    var s = 0;
+    song.lines.forEach(function (l) { var st = exState[l.id]; if (st && st.done && st.first) s++; });
+    return s;
+  }
+
+  function renderPhrase() {
+    var l = cur();
+    $('finishCard').hidden = true;
+    $('phraseCard').hidden = false;
+    $('stIdx').textContent = String(idx + 1);
+    $('stTotal').textContent = String(song.lines.length);
+    $('enText').textContent = l.english;
+    $('ptText').textContent = l.portuguese || '—';
+    $('tipText').textContent = l.singing_tip || '—';
+    $('playStatus').textContent = '';
+
+    // vocabulário
+    var pills = $('vocabPills');
+    pills.replaceChildren();
+    $('vocabBlock').hidden = !l.vocabulary.length;
+    $('vocabMeaning').textContent = 'Toque em uma palavra para ver o significado.';
+    l.vocabulary.forEach(function (v) {
+      var b = el('button', { class: 'pill', type: 'button', 'aria-pressed': 'false', lang: 'en' });
+      b.textContent = v.word;
+      b.addEventListener('click', function () {
+        var pressed = b.getAttribute('aria-pressed') === 'true';
+        pills.querySelectorAll('.pill').forEach(function (p) { p.setAttribute('aria-pressed', 'false'); });
+        if (pressed) {
+          $('vocabMeaning').textContent = 'Toque em uma palavra para ver o significado.';
+        } else {
+          b.setAttribute('aria-pressed', 'true');
+          $('vocabMeaning').textContent = v.word + ' = ' + (v.meaning || '—');
+        }
+      });
+      pills.append(b);
+    });
+
+    buildChips();
+    renderExercise();
+    $('btnPrev').disabled = idx === 0;
+  }
+
+  function renderExercise() {
+    var l = cur(), ex = l.exercise;
+    $('exerciseCard').hidden = !ex;
+    $('stScore').textContent = String(score());
+    var last = idx === song.lines.length - 1;
+    $('btnNext').textContent = last ? '🏁 Finalizar' : 'Próxima frase ▶';
+
+    if (!ex) {
+      $('btnNext').disabled = false;
+      $('lockHint').hidden = true;
+      return;
+    }
+    var st = exState[l.id];
+    if (!st) {
+      st = exState[l.id] = { wrong: [], done: false, first: false, order: shuffle(ex.options) };
+    }
+    $('exQuestion').textContent = ex.question;
+    var box = $('exOptions');
+    box.replaceChildren();
+    st.order.forEach(function (opt) {
+      var cls = 'opt';
+      if (st.done && opt === ex.answer) cls += ' correct';
+      else if (st.wrong.indexOf(opt) !== -1) cls += ' wrong';
+      var b = el('button', { class: cls, type: 'button' });
+      b.textContent = opt;
+      var isWrong = st.wrong.indexOf(opt) !== -1;
+      b.disabled = st.done || isWrong;
+      if (isWrong) b.setAttribute('aria-label', opt + ' (resposta errada)');
+      if (st.done && opt === ex.answer) b.setAttribute('aria-label', opt + ' (resposta correta)');
+      b.addEventListener('click', function () { answer(opt); });
+      box.append(b);
+    });
+
+    var fb = $('exFeedback');
+    fb.className = 'feedback';
+    if (st.done) {
+      fb.classList.add('ok');
+      fb.textContent = st.first ? '✅ Correto de primeira! +1 ponto' : '✅ Correto! Você chegou lá.';
+    } else if (st.wrong.length) {
+      fb.classList.add('bad');
+      fb.textContent = '❌ Ainda não. Tente outra opção.';
+    } else {
+      fb.textContent = 'Escolha uma opção.';
+    }
+    $('btnNext').disabled = !st.done;
+    $('lockHint').hidden = st.done;
+  }
+
+  function answer(opt) {
+    var l = cur(), ex = l.exercise, st = exState[l.id];
+    if (!st || st.done) return;
+    if (opt === ex.answer) {
+      st.done = true;
+      st.first = st.wrong.length === 0;
+    } else if (st.wrong.indexOf(opt) === -1) {
+      st.wrong.push(opt);
+    }
+    renderExercise();
+    buildChips();
+  }
+
+  function stopPhrase() { phrase.active = false; phrase.armed = false; }
+
+  function playPhrase() {
+    if (!ready) { showPlayerMsg('O player ainda está carregando. Aguarde um instante e tente de novo.'); return; }
+    var l = cur();
+    phrase = { active: true, armed: false, t0: performance.now() };
+    $('playStatus').textContent = 'Tocando o trecho…';
+    player.seekTo(l.start_time, true);
+    player.playVideo();
+    applyRate();
+  }
+
+  function selectPhrase(i, autoplay) {
+    idx = Math.max(0, Math.min(song.lines.length - 1, i));
+    stopPhrase();
+    renderPhrase();
+    updateYtLink();
+    if (ready) {
+      if (autoplay) playPhrase();
+      else { player.pauseVideo(); cueAt(cur().start_time); }
+    }
+  }
+
+  $('btnPlayPhrase').addEventListener('click', playPhrase);
+  $('btnPausePhrase').addEventListener('click', function () {
+    stopPhrase();
+    if (ready) player.pauseVideo();
+    $('playStatus').textContent = 'Pausado.';
+  });
+  $('btnPrev').addEventListener('click', function () { selectPhrase(idx - 1, true); });
+  $('btnNext').addEventListener('click', function () {
+    if (idx < song.lines.length - 1) { selectPhrase(idx + 1, true); return; }
+    // fim
+    stopPhrase();
+    if (ready) player.pauseVideo();
+    $('phraseCard').hidden = true;
+    $('exerciseCard').hidden = true;
+    $('btnNext').disabled = true;
+    $('lockHint').hidden = true;
+    var total = song.lines.length, got = score();
+    $('finishText').textContent = 'Você acertou ' + got + ' de ' + total + ' exercícios de primeira. Agora que conhece a letra, que tal cantar no modo Karaokê?';
+    $('finishCard').hidden = false;
+    $('finishCard').focus();
+  });
+  $('btnRestart').addEventListener('click', function () { exState = {}; selectPhrase(0, false); });
+  $('btnGoKaraoke').addEventListener('click', function () { setMode('karaoke'); });
+
+  /* =====================================================
+     MODO KARAOKÊ
+     ===================================================== */
+  function renderLyrics() {
+    var ul = $('lyrics');
+    ul.replaceChildren();
+    song.lines.forEach(function (l, i) {
+      var b = el('button', { class: 'lyric', type: 'button', title: 'Tocar a partir desta frase' },
+        el('span', { class: 'ly-en', text: l.english, lang: 'en' }),
+        el('span', { class: 'ly-pt', text: l.portuguese }),
+        el('span', { class: 'ly-tip', text: l.singing_tip ? '🎤 ' + l.singing_tip : '' })
+      );
+      b.addEventListener('click', function () {
+        if (IS_FILE) {
+          scrollPausedUntil = 0;
+          manualSet(l.start_time - offset, true);
+          refreshManualUI();
+          updateKaraoke(manualTime() + offset);
+          return;
+        }
+        if (!ready) return;
+        scrollPausedUntil = 0;
+        player.seekTo(Math.max(0, l.start_time - offset), true);
+        player.playVideo();
+        applyRate();
+      });
+      ul.append(el('li', {}, b));
+    });
+    activeLine = -2;
+  }
+
+  function lineAt(t) {
+    var found = -1;
+    for (var i = 0; i < song.lines.length; i++) {
+      if (song.lines[i].start_time <= t) found = i; else break;
+    }
+    if (found >= 0 && t > song.lines[found].end_time + 2.5) {
+      var next = song.lines[found + 1];
+      if (!next || t < next.start_time) return -1; // trecho instrumental
+    }
+    return found;
+  }
+
+  function updateKaraoke(t) {
+    var i = lineAt(t);
+    if (i === activeLine) return;
+    var items = $('lyrics').querySelectorAll('.lyric');
+    if (items[activeLine]) { items[activeLine].classList.remove('active'); items[activeLine].removeAttribute('aria-current'); }
+    activeLine = i;
+    if (items[i]) { items[i].classList.add('active'); items[i].setAttribute('aria-current', 'true'); }
+    scrollToActive(false);
+  }
+
+  function scrollToActive(force) {
+    if (mode !== 'karaoke') return;
+    if (!$('optScroll').checked && !force) return;
+    if (!force && Date.now() < scrollPausedUntil) return;
+    if (force && !$('optScroll').checked) return;
+    var box = $('lyrics');
+    var item = box.querySelectorAll('.lyric')[activeLine];
+    if (!item) return;
+    var li = item.parentElement;
+    var top = li.offsetTop - box.clientHeight / 2 + li.offsetHeight / 2;
+    box.scrollTo({ top: Math.max(0, top), behavior: (reduceMotion || force) ? 'auto' : 'smooth' });
+  }
+
+  ['wheel', 'touchmove', 'keydown'].forEach(function (ev) {
+    $('lyrics').addEventListener(ev, function () { scrollPausedUntil = Date.now() + 4000; }, { passive: true });
+  });
+
+  $('optTr').addEventListener('change', function () { $('lyrics').classList.toggle('hide-tr', !this.checked); scrollToActive(true); });
+  $('optTip').addEventListener('change', function () { $('lyrics').classList.toggle('hide-tip', !this.checked); scrollToActive(true); });
+  $('optScroll').addEventListener('change', function () { if (this.checked) { scrollPausedUntil = 0; scrollToActive(true); } });
+
+  $('kPlay').addEventListener('click', function () {
+    if (IS_FILE) {
+      manualSet(manualTime(), !manual.running);
+      refreshManualUI();
+      updateKaraoke(manualTime() + offset);
+      return;
+    }
+    if (!ready) return;
+    if (playerState === YT_PLAYING) player.pauseVideo(); else { player.playVideo(); applyRate(); }
+  });
+  $('kRestart').addEventListener('click', function () {
+    if (IS_FILE) {
+      scrollPausedUntil = 0;
+      manualSet(0, true);
+      refreshManualUI();
+      updateKaraoke(offset);
+      return;
+    }
+    if (!ready) return;
+    scrollPausedUntil = 0;
+    player.seekTo(0, true);
+    player.playVideo();
+    applyRate();
+  });
+  function setOffset(v) {
+    offset = Math.max(-10, Math.min(10, Math.round(v * 10) / 10));
+    $('offVal').textContent = fmtOffset(offset);
+    store.set('offset', String(offset));
+  }
+  $('offMinus').addEventListener('click', function () { setOffset(offset - 0.5); });
+  $('offPlus').addEventListener('click', function () { setOffset(offset + 0.5); });
+
+  /* =====================================================
+     LOOP DE SINCRONIA
+     ===================================================== */
+  setInterval(function () {
+    if (IS_FILE) {
+      if (mode === 'karaoke' && manual.running) {
+        var mt = manualTime();
+        $('kClock').textContent = fmtClock(mt);
+        updateKaraoke(mt + offset);
+      }
+      return;
+    }
+    if (!ready || !player || typeof player.getCurrentTime !== 'function') return;
+    var t = player.getCurrentTime();
+    if (mode === 'study') {
+      if (!phrase.active) return;
+      var l = cur();
+      if (!phrase.armed) {
+        // espera o seek terminar antes de vigiar o fim do trecho
+        if ((t >= l.start_time - 0.3 && t < l.end_time) || performance.now() - phrase.t0 > 2500) phrase.armed = true;
+        return;
+      }
+      if (t >= l.end_time) {
+        player.pauseVideo();
+        stopPhrase();
+        $('playStatus').textContent = 'Trecho terminado. Agora faça o exercício.';
+      }
+    } else {
+      updateKaraoke(t + offset);
+    }
+  }, 100);
+
+  /* =====================================================
+     MODO (TOGGLE)
+     ===================================================== */
+  function setMode(m) {
+    mode = m;
+    var k = m === 'karaoke';
+    $('modeSwitch').setAttribute('aria-checked', String(k));
+    $('modeSwitch').setAttribute('aria-label', k ? 'Modo Karaokê ativo. Ativar modo Estudo' : 'Modo Estudo ativo. Ativar modo Karaokê');
+    $('lblStudy').setAttribute('aria-pressed', String(!k));
+    $('lblKaraoke').setAttribute('aria-pressed', String(k));
+    $('studyView').hidden = k;
+    $('karaokeView').hidden = !k;
+    store.set('mode', m);
+    updateYtLink();
+    stopPhrase();
+    if (ready) player.pauseVideo();
+    if (IS_FILE && manual.running) { manualSet(manualTime(), false); refreshManualUI(); }
+    if (k) {
+      activeLine = -2;
+      if (ready) cueAt(0);
+      updateKaraoke(IS_FILE && manual.base > 0 ? manualTime() + offset : -1);
+      $('lyrics').scrollTop = 0;
+    } else {
+      renderPhrase();
+      if (ready) cueAt(cur().start_time);
+    }
+    requestAnimationFrame(updateHeaderHeight);
+  }
+  $('modeSwitch').addEventListener('click', function () { setMode(mode === 'karaoke' ? 'study' : 'karaoke'); });
+  $('lblStudy').addEventListener('click', function () { setMode('study'); });
+  $('lblKaraoke').addEventListener('click', function () { setMode('karaoke'); });
+
+  /* =====================================================
+     CARREGAR MÚSICA
+     ===================================================== */
+  function setSong(s) {
+    song = s;
+    exState = {};
+    idx = 0;
+    $('songTitle').textContent = song.title;
+    $('songArtist').textContent = song.artist ? 'por ' + song.artist : '';
+    document.title = song.title + ' — Aprenda Inglês Cantando';
+    showPlayerMsg('');
+    renderLyrics();
+    renderPhrase();
+    updateYtLink();
+    if (IS_FILE) { manualSet(0, false); refreshManualUI(); }
+    if (ready) {
+      player.pauseVideo();
+      cueAt(mode === 'karaoke' ? 0 : song.lines[0].start_time);
+    }
+    if (mode === 'karaoke') updateKaraoke(-1);
+  }
+  function fillLoader(s) {
+    $('inVideo').value = s.youtubeId;
+    $('inTitle').value = s.title;
+    $('inArtist').value = s.artist;
+    $('inJson').value = JSON.stringify(s.lines, null, 2);
+  }
+  function status(msg, ok) {
+    var p = $('loadStatus');
+    p.textContent = msg;
+    p.className = 'status ' + (ok ? 'ok' : 'bad');
+  }
+  $('btnLoad').addEventListener('click', function () {
+    try {
+      var raw = JSON.parse($('inJson').value);
+      var s = normalize(raw, $('inVideo').value);
+      var vid = parseVideoId($('inVideo').value);
+      if (vid) s.youtubeId = vid;
+      if ($('inTitle').value.trim()) s.title = $('inTitle').value.trim();
+      if ($('inArtist').value.trim()) s.artist = $('inArtist').value.trim();
+      setSong(s);
+      status('✅ Música carregada: ' + s.title + ' (' + s.lines.length + ' frases).', true);
+    } catch (e) {
+      status('❌ ' + (e instanceof SyntaxError ? 'JSON inválido: ' + e.message : e.message), false);
+    }
+  });
+  $('btnDefault').addEventListener('click', function () {
+    var s = normalize(DEFAULT_SONG);
+    fillLoader(s);
+    setSong(s);
+    status('✅ Música padrão restaurada.', true);
+  });
+
+  /* =====================================================
+     INÍCIO
+     ===================================================== */
+  var savedOffset = parseFloat(store.get('offset'));
+  if (isFinite(savedOffset)) setOffset(savedOffset); else setOffset(0);
+  applyFont();
+  var first = normalize(DEFAULT_SONG);
+  fillLoader(first);
+  setSong(first);
+  if (IS_FILE) setupFileMode();
+  setMode(store.get('mode') === 'karaoke' ? 'karaoke' : 'study');
+  if (window.ResizeObserver) new ResizeObserver(updateHeaderHeight).observe($('topbar'));
+  window.addEventListener('resize', updateHeaderHeight);
+  updateHeaderHeight();
+
+  // aviso caso o player não carregue em alguns segundos
+  setTimeout(function () {
+    if (!IS_FILE && !ready && $('playerMsg').hidden) {
+      showPlayerMsg('O vídeo está demorando para carregar. Verifique sua conexão com a internet.');
+    }
+  }, 10000);
+})();
+</script>
+</body>
+</html>
