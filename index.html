@@ -390,45 +390,238 @@ details.loader summary{cursor:pointer;min-height:2.8rem;display:flex;align-items
   /* =====================================================
      DADOS PADRÃO (estrutura JSON flexível)
      ===================================================== */
-  var DEFAULT_SONG = {
-    title: 'Bohemian Rhapsody',
-    artist: 'Queen',
-    youtubeId: 'fJ9rUzIMcZQ',
-    lines: [
-      {
-        id: 1, start_time: 0, end_time: 4,
-        english: 'Is this the real life?',
-        portuguese: 'Isso é a vida real?',
-        singing_tip: 'iz-dis-da riu laif?',
-        vocabulary: [{ word: 'real', meaning: 'real, verdadeiro' }],
-        exercise: { question: 'Preencha: Is this the ____ life?', options: ['real', 'fake', 'true'], answer: 'real' }
-      },
-      {
-        id: 2, start_time: 5, end_time: 8,
-        english: 'Is this just fantasy?',
-        portuguese: 'Isso é apenas fantasia?',
-        singing_tip: 'iz-dis-djast fan-ta-si?',
-        vocabulary: [{ word: 'just', meaning: 'apenas, só' }],
-        exercise: { question: "O que significa 'just' nesta frase?", options: ['apenas', 'justo', 'quase'], answer: 'apenas' }
-      },
-      {
-        id: 3, start_time: 9, end_time: 13,
-        english: 'Caught in a landslide,',
-        portuguese: 'Preso em um deslizamento de terra,',
-        singing_tip: 'kót-i-na lend-slaid',
-        vocabulary: [{ word: 'landslide', meaning: 'deslizamento de terra / avalanche' }],
-        exercise: { question: "Qual palavra indica estar 'preso'?", options: ['Caught', 'Landslide', 'Fantasy'], answer: 'Caught' }
-      },
-      {
-        id: 4, start_time: 14, end_time: 18,
-        english: 'No escape from reality.',
-        portuguese: 'Sem escapatória da realidade.',
-        singing_tip: 'no es-keip fróm ri-e-li-ti',
-        vocabulary: [{ word: 'escape', meaning: 'fuga, escapatória' }],
-        exercise: { question: 'Preencha: No ____ from reality.', options: ['escape', 'entry', 'way'], answer: 'escape' }
-      }
-    ]
-  };
+var DEFAULT_SONG = {
+  title: 'Bohemian Rhapsody',
+  artist: 'Queen',
+  youtubeId: 'fJ9rUzIMcZQ',
+  lines: [
+    {
+      id: 1, start_time: 0, end_time: 4,
+      english: 'Is this the real life?',
+      portuguese: 'Isso é a vida real?',
+      singing_tip: 'iz-dis-da riu laif?',
+      vocabulary: [{ word: 'real', meaning: 'real, verdadeiro' }],
+      exercise: { question: "Preencha: Is this the ___ life?", options: ['real', 'fake', 'true'], answer: 'real' }
+    },
+    {
+      id: 2, start_time: 5, end_time: 8,
+      english: 'Is this just fantasy?',
+      portuguese: 'Isso é apenas fantasia?',
+      singing_tip: 'iz-dis-djast fan-ta-si?',
+      vocabulary: [{ word: 'just', meaning: 'apenas, só' }],
+      exercise: { question: "O que significa 'just' nesta frase?", options: ['apenas', 'justo', 'quase'], answer: 'apenas' }
+    },
+    {
+      id: 3, start_time: 9, end_time: 13,
+      english: 'Caught in a landslide,',
+      portuguese: 'Preso em um deslizamento de terra,',
+      singing_tip: 'kót-i-na lend-slaid',
+      vocabulary: [{ word: 'landslide', meaning: 'deslizamento de terra / avalanche' }],
+      exercise: { question: "Qual palavra indica estar 'preso'?", options: ['Caught', 'Landslide', 'Fantasy'], answer: 'Caught' }
+    },
+    {
+      id: 4, start_time: 14, end_time: 18,
+      english: 'No escape from reality.',
+      portuguese: 'Sem escapatória da realidade.',
+      singing_tip: 'no es-keip fróm ri-e-li-ti',
+      vocabulary: [{ word: 'escape', meaning: 'fuga, escapatória' }],
+      exercise: { question: "Preencha: No ___ from reality.", options: ['escape', 'entry', 'way'], answer: 'escape' }
+    },
+    {
+      id: 5, start_time: 19, end_time: 24,
+      english: 'Open your eyes, look up to the skies and see,',
+      portuguese: 'Abra seus olhos, olhe para os céus e veja,',
+      singing_tip: 'ou-pen iór ais, luk áp tu da skais end si',
+      vocabulary: [{ word: 'skies', meaning: 'céus' }],
+      exercise: { question: "O que significa 'look up'?", options: ['olhe para cima', 'feche', 'procure'], answer: 'olhe para cima' }
+    },
+    {
+      id: 6, start_time: 25, end_time: 30,
+      english: "I'm just a poor boy, I need no sympathy,",
+      portuguese: 'Sou apenas um garoto pobre, não preciso de compaixão,',
+      singing_tip: 'aim djast e pur bói, ai nid no sim-pa-ti',
+      vocabulary: [{ word: 'sympathy', meaning: 'compaixão, empatia' }],
+      exercise: { question: "Qual a tradução de 'poor'?", options: ['pobre', 'rico', 'jovem'], answer: 'pobre' }
+    },
+    {
+      id: 7, start_time: 31, end_time: 36,
+      english: "Because I'm easy come, easy go, little high, little low,",
+      portuguese: 'Porque eu venho fácil, vou fácil, um pouco por cima, um pouco por baixo,',
+      singing_tip: 'bi-kóz aim i-zi kóm, i-zi gou, li-tol hai, li-tol lou',
+      vocabulary: [{ word: 'easy', meaning: 'fácil' }],
+      exercise: { question: "O que significa 'easy come, easy go'?", options: ['o que vem fácil, vai fácil', 'vai devagar', 'sempre difícil'], answer: 'o que vem fácil, vai fácil' }
+    },
+    {
+      id: 8, start_time: 37, end_time: 44,
+      english: 'Any way the wind blows, doesn\'t really matter to me, to me.',
+      portuguese: 'Para onde quer que o vento sobre, realmente não importa para mim.',
+      singing_tip: 'e-ni wei da uind blous, dă-zent ri-li me-ter tu mi',
+      vocabulary: [{ word: 'wind', meaning: 'vento' }, { word: 'matter', meaning: 'importar' }],
+      exercise: { question: "Qual palavra significa 'vento'?", options: ['wind', 'blows', 'matter'], answer: 'wind' }
+    },
+    {
+      id: 9, start_time: 55, end_time: 62,
+      english: 'Mama, just killed a man, put a gun against his head,',
+      portuguese: 'Mamãe, acabei de matar um homem, coloquei uma arma contra a cabeça dele,',
+      singing_tip: 'ma-ma, djast kild e men, put e găn e-geinst his hed',
+      vocabulary: [{ word: 'gun', meaning: 'arma de fogo' }],
+      exercise: { question: "Preencha: put a ___ against his head", options: ['gun', 'hand', 'stone'], answer: 'gun' }
+    },
+    {
+      id: 10, start_time: 63, end_time: 69,
+      english: 'Pulled my trigger, now he\'s dead.',
+      portuguese: 'Puxei meu gatilho, agora ele está morto.',
+      singing_tip: 'puld mai tri-gher, nau his ded',
+      vocabulary: [{ word: 'trigger', meaning: 'gatilho' }, { word: 'dead', meaning: 'morto' }],
+      exercise: { question: "O que significa 'dead'?", options: ['morto', 'vivo', 'ferido'], answer: 'morto' }
+    }
+    // --- SEÇÃO 2: A BALADA DE PIANO (Continuação da confissão) ---
+    {
+      id: 11, start_time: 70, end_time: 76,
+      english: "Mama, life had just begun...", // [Preencha a frase em inglês]
+      portuguese: "Mamãe, a vida tinha acabado de começar...",
+      singing_tip: "ma-ma, laif hed djast bi-gan",
+      vocabulary: [{ word: "begun", meaning: "começado" }],
+      exercise: { question: "Preencha: life had just ___", options: ["begun", "ended", "started"], answer: "begun" }
+    },
+    {
+      id: 12, start_time: 77, end_time: 85,
+      english: "But now I've gone and thrown it all away...", // [Preencha a frase em inglês]
+      portuguese: "Mas agora eu joguei tudo fora...",
+      singing_tip: "bat nau aiv gón end throu-nit ól e-wei",
+      vocabulary: [{ word: "thrown away", meaning: "jogado fora / desperdiçado" }],
+      exercise: { question: "Qual expressão significa 'jogar fora'?", options: ["thrown away", "gone", "begun"], answer: "thrown away" }
+    },
+    {
+      id: 13, start_time: 86, end_time: 96,
+      english: "Mama, ooh, didn't mean to make you cry...", // [Preencha a frase em inglês]
+      portuguese: "Mamãe, ooh, não tive a intenção de te fazer chorar...",
+      singing_tip: "ma-ma, uuh, di-dent min tu meik iu krai",
+      vocabulary: [{ word: "mean", meaning: "ter a intenção de" }],
+      exercise: { question: "O que significa 'make you cry'?", options: ["fazer você chorar", "fazer rir", "cantar"], answer: "fazer você chorar" }
+    },
+
+    // --- SEÇÃO 3: PARTE OPERÍSTICA (A partir dos ~180 segundos / 3:00) ---
+    {
+      id: 14, start_time: 183, end_time: 188,
+      english: "I see a little silhouetto of a man...", // [Preencha a frase em inglês]
+      portuguese: "Eu vejo uma pequena silhueta de um homem...",
+      singing_tip: "ai si e li-tol si-lu-e-to óv e men",
+      vocabulary: [{ word: "silhouetto", meaning: "silhueta" }],
+      exercise: { question: "Qual palavra significa 'silhueta'?", options: ["silhouetto", "man", "little"], answer: "silhouetto" }
+    },
+    {
+      id: 15, start_time: 189, end_time: 194,
+      english: "Scaramouche, Scaramouche, will you do the Fandango?", // [Preencha a frase em inglês]
+      portuguese: "Scaramouche, Scaramouche, você vai dançar o Fandango?",
+      singing_tip: "ska-ra-mush, ska-ra-mush, uil iu du da fen-den-gou",
+      vocabulary: [{ word: "Fandango", meaning: "uma dança tradicional espanhola" }],
+      exercise: { question: "O que é Fandango?", options: ["uma dança", "uma comida", "uma música"], answer: "uma dança" }
+    },
+
+    // --- SEÇÃO 4: HARD ROCK (A partir dos ~255 segundos / 4:15) ---
+    {
+      id: 16, start_time: 256, end_time: 262,
+      english: "So you think you can stone me and spit in my eye?", // [Preencha a frase em inglês]
+      portuguese: "Então você acha que pode me apedrejar e cuspir no meu olho?",
+      singing_tip: "sou iu think iu ken stoun mi end spit in mai ai",
+      vocabulary: [{ word: "spit", meaning: "cuspir" }],
+      exercise: { question: "O que significa 'spit'?", options: ["cuspir", "olhar", "pensar"], answer: "cuspir" }
+    },
+
+    // --- SEÇÃO 5: CONCLUSÃO / OUTRO (A partir dos ~310 segundos / 5:10) ---
+    {
+      id: 17, start_time: 312, end_time: 325,
+      english: "Nothing really matters, anyone can see...", // [Preencha a frase em inglês]
+      portuguese: "Nada realmente importa, qualquer um pode ver...",
+      singing_tip: "na-thing ri-li me-ters, e-ni-uan ken si",
+      vocabulary: [{ word: "anyone", meaning: "qualquer um / qualquer pessoa" }],
+      exercise: { question: "Qual a tradução de 'anyone'?", options: ["qualquer um", "ninguém", "alguém"], answer: "qualquer um" }
+    }
+ // --- ESTROFE 16 ---
+    {
+      id: 16, start_time: 256, end_time: 262,
+      english: "So you think you can stone me and spit in my eye?",
+      portuguese: "Então você acha que pode me apedrejar e cuspir no meu olho?",
+      singing_tip: "sou iu think iu ken stoun mi end spit in mai ai?",
+      vocabulary: [{ word: "stone", meaning: "apedrejar" }, { word: "spit", meaning: "cuspir" }],
+      exercise: { question: "Qual a tradução de 'spit'?", options: ["cuspir", "olhar", "gritar"], answer: "cuspir" }
+    },
+    // --- ESTROFE 17 ---
+    {
+      id: 17, start_time: 263, end_time: 269,
+      english: "[Insira aqui o próximo verso do Hard Rock em inglês]",
+      portuguese: "Então você acha que pode me amar e me deixar para morrer?",
+      singing_tip: "sou iu think iu ken lăv mi end liv mi tu dai?",
+      vocabulary: [{ word: "leave", meaning: "deixar / abandonar" }],
+      exercise: { question: "Preencha: leave me to ___", options: ["die", "cry", "fly"], answer: "die" }
+    },
+    // --- ESTROFE 18 ---
+    {
+      id: 18, start_time: 270, end_time: 279,
+      english: "[Insira aqui o próximo verso em inglês]",
+      portuguese: "Ah, baby, não pode fazer isso comigo, baby!",
+      singing_tip: "oh, bei-bi, kent du dis tu mi, bei-bi!",
+      vocabulary: [{ word: "can't", meaning: "não pode / não consegue" }],
+      exercise: { question: "O que significa 'can't'?", options: ["não pode", "pode", "deve"], answer: "não pode" }
+    },
+    // --- ESTROFE 19 ---
+    {
+      id: 19, start_time: 280, end_time: 295,
+      english: "[Insira aqui o próximo verso em inglês]",
+      portuguese: "Só preciso sair, só preciso cair fora daqui!",
+      singing_tip: "djast gat tu get aut, djast gat tu get rait aut óv hir!",
+      vocabulary: [{ word: "get out", meaning: "sair / cair fora" }],
+      exercise: { question: "Qual expressão significa 'sair daqui'?", options: ["get out", "stay here", "go in"], answer: "get out" }
+    },
+      // --- ESTROFE 20 ---
+    {
+      id: 20, start_time: 312, end_time: 320,
+      english: "Nothing really matters, anyone can see...",
+      portuguese: "Nada realmente importa, qualquer um pode ver...",
+      singing_tip: "na-thing ri-li me-ters, e-ni-uan ken si...",
+      vocabulary: [{ word: "anyone", meaning: "qualquer um / qualquer pessoa" }],
+      exercise: { question: "Qual a tradução de 'anyone'?", options: ["qualquer um", "ninguém", "alguém"], answer: "qualquer um" }
+    },
+    // --- ESTROFE 21 ---
+    {
+      id: 21, start_time: 321, end_time: 330,
+      english: "[Insira aqui o próximo verso em inglês]",
+      portuguese: "Nada realmente importa, nada realmente importa para mim...",
+      singing_tip: "na-thing ri-li me-ters, na-thing ri-li me-ters tu mi...",
+      vocabulary: [{ word: "matter", meaning: "importar / ter importância" }],
+      exercise: { question: "Preencha: Nothing really ___ to me", options: ["matters", "helps", "comes"], answer: "matters" }
+    },
+    // --- ESTROFE 22 ---
+    {
+      id: 22, start_time: 345, end_time: 355,
+      english: "[Insira aqui o verso final em inglês]",
+      portuguese: "De qualquer forma o vento sopre...",
+      singing_tip: "e-ni uei da uind blous...",
+      vocabulary: [{ word: "wind", meaning: "vento" }, { word: "blows", meaning: "sopra" }],
+      exercise: { question: "O que significa 'wind'?", options: ["vento", "chuva", "fogo"], answer: "vento" }
+    }
+  // --- ESTROFE 23 ---
+    {
+      id: 23, start_time: 331, end_time: 340,
+      english: "[Insira aqui o verso seguinte em inglês]",
+      portuguese: "De qualquer forma o vento sopre...",
+      singing_tip: "e-ni uei da uind blous...",
+      vocabulary: [{ word: "anyway", meaning: "de qualquer forma / de qualquer modo" }],
+      exercise: { question: "Qual o significado de 'anyway'?", options: ["de qualquer forma", "sempre", "nunca"], answer: "de qualquer forma" }
+    },
+    // --- ESTROFE 24 (CONCLUSÃO FINAL) ---
+    {
+      id: 24, start_time: 341, end_time: 355,
+      english: "Any way the wind blows.",
+      portuguese: "Para onde quer que o vento sobre.",
+      singing_tip: "e-ni uei da uind blous.",
+      vocabulary: [{ word: "blows", meaning: "sopra" }],
+      exercise: { question: "Preencha: Any way the wind ___", options: ["blows", "goes", "runs"], answer: "blows" }
+    }
+  
+  ]
+};
 
   /* =====================================================
      UTILITÁRIOS
