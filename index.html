@@ -94,6 +94,18 @@ main:focus{outline:none}
   border:2px solid var(--border);
 }
 @supports (width:1svh){ .video-wrap{width:min(100%,max(18rem,min(760px,74svh)))} }
+/* Karaokê: vídeo menor para a letra ganhar altura */
+body.mode-karaoke main{padding-top:.4rem}
+body.mode-karaoke .video-wrap{width:min(100%,420px)}
+body.mode-karaoke.zen .video-wrap{width:min(100%,260px)}
+body.mode-karaoke .now{display:none}
+body.mode-karaoke #optsPanel:not([open]){display:none}
+body.mode-karaoke #optsPanel>summary{display:none}
+body.mode-karaoke #optsPanel{margin-top:.5rem}
+@supports (width:1svh){
+  body.mode-karaoke .video-wrap{width:min(100%,max(13rem,min(520px,40svh)))}
+  body.mode-karaoke.zen .video-wrap{width:min(100%,max(10rem,min(300px,24svh)))}
+}
 .video-wrap iframe{width:100%;height:100%;border:0;display:block}
 .msg{margin:.7rem 0 0;padding:.7rem .9rem;border-radius:10px;background:#3a1f1f;border:2px solid var(--danger);color:#fff}
 .msg a{color:var(--green)}
@@ -190,7 +202,7 @@ main:focus{outline:none}
 .finish h3{font-size:1.5rem;margin:.2rem 0 .5rem;color:var(--green)}
 
 /* ---------- Modo karaokê ---------- */
-.transport{margin:.7rem 0 .6rem}
+.transport{margin:.5rem 0 .5rem}
 .clock{display:inline-block;min-width:3.6rem;text-align:center;font-weight:900;font-size:1.3rem;color:var(--green);font-variant-numeric:tabular-nums}
 .opt-group{margin:.2rem 0 .8rem}
 .check{display:flex;align-items:center;gap:.6rem;min-height:2.6rem;cursor:pointer;font-weight:700}
@@ -224,6 +236,21 @@ main:focus{outline:none}
 .lyric.active .ly-pt{color:#fff;font-size:1.05rem}
 .lyric.active .ly-tip{color:#C4E3D1;font-size:1.05rem}
 
+/* ---------- Exemplo visual de preenchimento ---------- */
+.example{margin:.8rem 0;padding:.8rem 1rem 1rem;background:var(--bg);border:2px solid var(--border);border-radius:14px}
+.example h4{margin:0 0 .5rem;color:var(--green);font-size:1rem}
+.ex-line{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.82rem;line-height:2.1;word-break:break-word}
+.tok{padding:.15em .45em;border-radius:6px;border:1px solid}
+.t-time{color:#E8D9A8;border-color:#6b6140;background:#2a2619}
+.t-en{color:#fff;border-color:#555;background:#262626}
+.t-pt{color:#A9CBE8;border-color:#41566b;background:#1a232c}
+.t-tip{color:var(--green-soft);border-color:var(--green2);background:var(--green-dark)}
+.sep{color:var(--muted);margin:0 .25em;font-weight:900}
+.ex-legend{display:flex;flex-wrap:wrap;gap:.4rem .9rem;margin:.6rem 0;font-size:.85rem;color:var(--muted)}
+.ex-arrow{text-align:center;color:var(--muted);margin:.5rem 0;font-size:.9rem;font-weight:700}
+.example .lyric{cursor:default;border-radius:10px}
+.example pre{margin:.4rem 0 0;padding:.7rem .9rem;background:#000;color:var(--green-soft);border-radius:10px;overflow-x:auto;font-size:.8rem;line-height:1.5}
+
 /* ---------- Carregar música ---------- */
 details.loader{margin-top:1.4rem;background:var(--surface);border:2px solid var(--border);border-radius:16px;padding:.3rem 1rem}
 details.loader summary{cursor:pointer;min-height:2.8rem;display:flex;align-items:center;font-weight:800;color:var(--green)}
@@ -244,6 +271,14 @@ details.loader summary{cursor:pointer;min-height:2.8rem;display:flex;align-items
   .lyric.active .ly-en{font-size:1.6rem}
   .start-card h2{font-size:1.6rem}
 }
+@media (max-width:520px){
+  .brand-long{display:none}
+  .fbtn{min-width:2.4em}
+  .font-controls .pct{min-width:2.6em}
+}
+.transport{gap:.35rem}
+.transport .btn{padding:.4rem .6rem;min-height:2.7rem;font-size:.95em}
+.transport #kZen,.transport #kOpts{min-width:2.6rem;padding:.4rem .45rem;font-size:1.1em}
 @media (prefers-reduced-motion:reduce){*{transition:none !important;scroll-behavior:auto !important}}
 </style>
 </head>
@@ -252,7 +287,7 @@ details.loader summary{cursor:pointer;min-height:2.8rem;display:flex;align-items
 
 <header class="topbar" id="topbar">
   <div class="topbar-row">
-    <h1 class="brand">🎵 Aprenda Inglês Cantando</h1>
+    <h1 class="brand">🎵 <span class="brand-long">Aprenda </span>Inglês Cantando</h1>
     <div class="font-controls" role="group" aria-label="Tamanho da fonte">
       <button class="fbtn" id="fontDec" type="button" aria-label="Diminuir tamanho da fonte">A−</button>
       <span class="pct" id="fontLabel" aria-live="polite">100%</span>
@@ -405,7 +440,9 @@ details.loader summary{cursor:pointer;min-height:2.8rem;display:flex;align-items
       <div id="karaokeView" hidden>
         <div class="row transport">
           <button class="btn primary" id="kPlay" type="button">▶ Tocar</button>
-          <button class="btn" id="kRestart" type="button">⏮ Do início</button>
+          <button class="btn" id="kRestart" type="button">⏮ Início</button>
+          <button class="btn" id="kZen" type="button" aria-pressed="false" aria-label="Ampliar letra" title="Ampliar letra">⛶</button>
+          <button class="btn" id="kOpts" type="button" aria-expanded="false" aria-controls="optsPanel" aria-label="Opções do Karaokê" title="Opções do Karaokê">⚙</button>
           <output class="clock" id="kClock" hidden aria-label="Cronômetro do Karaokê">0:00</output>
           <a class="btn" id="kOpenYt" href="#" target="_blank" rel="noopener" hidden>▶ Abrir no YouTube</a>
         </div>
@@ -421,6 +458,36 @@ details.loader summary{cursor:pointer;min-height:2.8rem;display:flex;align-items
     <p class="hint">No LRC você pode acrescentar tradução e dica de canto separadas por <code>|</code>:<br>
       <code>[00:12.50]Inglês | Tradução | dica de canto~</code></p>
     <p class="hint">O LRC só traz o início de cada frase. O app calcula o fim sozinho (até 0,1 s antes da próxima frase, no máximo por volta de 9 s) e cria um exercício de lacuna para cada linha. Para tempos exatos de início e fim, use o JSON.</p>
+    <div class="example" aria-label="Exemplo de preenchimento">
+      <h4>Como preencher (frases inventadas, só para exemplo)</h4>
+      <div class="ex-line" aria-label="Exemplo em LRC">
+        <span class="tok t-time">[00:05.00]</span><span class="tok t-en">I walk along the river</span><span class="sep">|</span><span class="tok t-pt">Eu caminho ao longo do rio</span><span class="sep">|</span><span class="tok t-tip">ai uók a-lóng dã~ ri-vâr</span>
+      </div>
+      <div class="ex-legend">
+        <span><span class="tok t-time">tempo</span> início da frase [mm:ss.xx]</span>
+        <span><span class="tok t-en">inglês</span> obrigatório</span>
+        <span><span class="tok t-pt">tradução</span> 2º campo</span>
+        <span><span class="tok t-tip">apoio</span> 3º campo, com ~</span>
+      </div>
+      <p class="ex-arrow">▼ como aparece no Karaokê (linha atual) ▼</p>
+      <div class="lyric active" aria-hidden="true">
+        <span class="ly-en">I walk along the river</span>
+        <span class="ly-pt">Eu caminho ao longo do rio</span>
+        <span class="ly-tip">🎤 ai uók a-lóng dã~ ri-vâr</span>
+      </div>
+      <p class="hint">No Estudo, os mesmos campos aparecem no painel <strong>🇧🇷 Tradução e guia de canto</strong>. No Karaokê, ative <strong>⚙ Opções → Mostrar tradução / dica</strong> (e, se quiser em todas as linhas, <strong>Mostrar em todas as linhas</strong>).</p>
+      <p class="hint">Se você colar só o inglês (sem os <code>|</code>), os campos de tradução e apoio ficam vazios e nada aparece. Use o botão <strong>Mostrar música atual para editar</strong>: ele preenche o campo com todas as frases e deixa os espaços <code>| |</code> para completar.</p>
+      <p class="hint">O mesmo exemplo em JSON (os nomes <code>portuguese</code> e <code>singing_tip</code> são os que o app lê; <code>translation</code>, <code>pt</code>, <code>tip</code>, <code>dica</code> e <code>apoio</code> também funcionam):</p>
+<pre>[
+  {
+    "start_time": 5.00,
+    "end_time": 8.60,
+    "english": "I walk along the river",
+    "portuguese": "Eu caminho ao longo do rio",
+    "singing_tip": "ai uók a-lóng dã~ ri-vâr"
+  }
+]</pre>
+    </div>
     <label class="field"><span>ID ou link do vídeo no YouTube</span>
       <input id="inVideo" type="text" placeholder="fJ9rUzIMcZQ" autocomplete="off"></label>
     <label class="field"><span>Título (opcional)</span>
@@ -431,6 +498,8 @@ details.loader summary{cursor:pointer;min-height:2.8rem;display:flex;align-items
       <textarea id="inJson" spellcheck="false"></textarea></label>
     <div class="row">
       <button class="btn primary" id="btnLoad" type="button">Carregar música</button>
+      <button class="btn" id="btnExport" type="button">Mostrar música atual para editar</button>
+      <button class="btn" id="btnExample" type="button">Inserir exemplo no campo</button>
       <button class="btn" id="btnDefault" type="button">Restaurar música padrão</button>
     </div>
     <p class="status" id="loadStatus" role="status" aria-live="polite"></p>
@@ -515,6 +584,19 @@ details.loader summary{cursor:pointer;min-height:2.8rem;display:flex;align-items
     return a;
   }
   function round3(n) { return Math.round(n * 1000) / 1000; }
+  // pega o primeiro campo preenchido entre vários nomes aceitos
+  function pick(o, keys) {
+    for (var i = 0; i < keys.length; i++) {
+      var v = o[keys[i]];
+      if (v != null && String(v).trim() !== '') return String(v);
+    }
+    return '';
+  }
+  function fmtLrc(t) {
+    t = Math.round(t * 100) / 100;
+    var m = Math.floor(t / 60), s = t - m * 60;
+    return (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s.toFixed(2);
+  }
   function escapeRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
   function fmtOffset(v) { return (v > 0 ? '+' : '') + v.toFixed(1).replace('.', ',') + ' s'; }
   function fmtClock(sec) {
@@ -579,7 +661,8 @@ details.loader summary{cursor:pointer;min-height:2.8rem;display:flex;align-items
     if (!Array.isArray(lines) || !lines.length) throw new Error('Não encontrei nenhuma frase nos dados.');
     var out = lines.map(function (l, i) {
       var n = i + 1;
-      if (!l || typeof l.english !== 'string' || !l.english.trim()) throw new Error('Frase ' + n + ': falta o campo "english".');
+      var en = l ? pick(l, ['english', 'en', 'text']) : '';
+      if (!en.trim()) throw new Error('Frase ' + n + ': falta o campo "english".');
       var s = Number(l.start_time), e = Number(l.end_time);
       if (!isFinite(s) || !isFinite(e)) throw new Error('Frase ' + n + ': "start_time" e "end_time" devem ser números.');
       if (e <= s) throw new Error('Frase ' + n + ': "end_time" deve ser maior que "start_time".');
@@ -591,9 +674,9 @@ details.loader summary{cursor:pointer;min-height:2.8rem;display:flex;align-items
       return {
         id: l.id != null ? l.id : n,
         start_time: s, end_time: e,
-        english: l.english.trim(),
-        portuguese: l.portuguese ? String(l.portuguese) : '',
-        singing_tip: l.singing_tip ? String(l.singing_tip) : '',
+        english: en.trim(),
+        portuguese: pick(l, ['portuguese', 'translation', 'traducao', 'tradução', 'pt']),
+        singing_tip: pick(l, ['singing_tip', 'tip', 'pronunciation', 'pronuncia', 'pronúncia', 'dica', 'apoio', 'support']),
         vocabulary: Array.isArray(l.vocabulary) ? l.vocabulary.filter(function (v) { return v && v.word; }) : [],
         exercise: ex
       };
@@ -1001,14 +1084,13 @@ details.loader summary{cursor:pointer;min-height:2.8rem;display:flex;align-items
     activeLine = -2;
   }
 
+  // A frase fica em destaque até um instante antes da próxima entrar
+  // (o fim da frase não importa aqui; só os tempos de início).
+  var LEAD = 0.15;
   function lineAt(t) {
     var found = -1;
     for (var i = 0; i < song.lines.length; i++) {
-      if (song.lines[i].start_time <= t) found = i; else break;
-    }
-    if (found >= 0 && t > song.lines[found].end_time + 1.5) {
-      var next = song.lines[found + 1];
-      if (!next || t < next.start_time) return -1;     // trecho instrumental
+      if (song.lines[i].start_time - LEAD <= t) found = i; else break;
     }
     return found;
   }
@@ -1039,9 +1121,20 @@ details.loader summary{cursor:pointer;min-height:2.8rem;display:flex;align-items
     var box = $('lyrics');
     if (!started || mode !== 'karaoke' || $('karaokeView').hidden) return;
     var top = box.getBoundingClientRect().top + window.scrollY;
-    var h = window.innerHeight - top - 16;
-    box.style.height = Math.max(h, fs * 11) + 'px';
+    var h = window.innerHeight - top - 8;
+    box.style.height = Math.max(h, fs * 12) + 'px';
   }
+
+  function setZen(on) {
+    document.body.classList.toggle('zen', on);
+    $('kZen').setAttribute('aria-pressed', String(on));
+    var zl = on ? 'Mostrar vídeo maior' : 'Ampliar letra';
+    $('kZen').setAttribute('aria-label', zl);
+    $('kZen').title = zl;
+    store.set('zen', on ? '1' : '0');
+    requestAnimationFrame(function () { fitLyrics(); scrollToActive(true); });
+  }
+  $('kZen').addEventListener('click', function () { setZen(!document.body.classList.contains('zen')); });
 
   ['wheel', 'touchmove', 'keydown'].forEach(function (ev) {
     $('lyrics').addEventListener(ev, function () { scrollPausedUntil = Date.now() + 4000; }, { passive: true });
@@ -1051,7 +1144,11 @@ details.loader summary{cursor:pointer;min-height:2.8rem;display:flex;align-items
   $('optTip').addEventListener('change', function () { $('lyrics').classList.toggle('hide-tip', !this.checked); scrollToActive(true); });
   $('optAll').addEventListener('change', function () { $('lyrics').classList.toggle('show-all', this.checked); scrollToActive(true); });
   $('optScroll').addEventListener('change', function () { if (this.checked) { scrollPausedUntil = 0; scrollToActive(true); } });
-  $('optsPanel').addEventListener('toggle', function () { requestAnimationFrame(fitLyrics); });
+  $('optsPanel').addEventListener('toggle', function () {
+    $('kOpts').setAttribute('aria-expanded', String($('optsPanel').open));
+    requestAnimationFrame(fitLyrics);
+  });
+  $('kOpts').addEventListener('click', function () { $('optsPanel').open = !$('optsPanel').open; });
 
   $('kPlay').addEventListener('click', function () {
     if (IS_FILE) {
@@ -1143,6 +1240,7 @@ details.loader summary{cursor:pointer;min-height:2.8rem;display:flex;align-items
     $('studyView').hidden = k;
     $('karaokeView').hidden = !k;
     $('kOptions').hidden = !k;
+    document.body.classList.toggle('mode-karaoke', k);
     store.set('mode', m);
     refreshStartText();
     updateYtLink();
@@ -1212,11 +1310,22 @@ details.loader summary{cursor:pointer;min-height:2.8rem;display:flex;align-items
     }
     if (mode === 'karaoke') updateKaraoke(-1);
   }
+  // Converte a música atual em LRC com os campos "Inglês | Tradução | Apoio"
+  function toLrc(s) {
+    return s.lines.map(function (l) {
+      return '[' + fmtLrc(l.start_time) + ']' + l.english + ' | ' + (l.portuguese || '') + ' | ' + (l.singing_tip || '');
+    }).join('\n');
+  }
+  var EXAMPLE_LRC = [
+    '[00:05.00]I walk along the river | Eu caminho ao longo do rio | ai uók a-lóng dã~ ri-vâr',
+    '[00:09.50]The sun is going down | O sol está se pondo | dã~ sân iz gôu-in dáun~',
+    '[00:14.00]And I sing a quiet song | E eu canto uma canção calma | ãnd~ ai sing ã~ cuái-et sóng'
+  ].join('\n');
   function fillLoader(s) {
     $('inVideo').value = s.youtubeId;
     $('inTitle').value = s.title;
     $('inArtist').value = s.artist;
-    $('inJson').value = JSON.stringify(s.lines, null, 2);
+    $('inJson').value = toLrc(s);
   }
   function status(msg, ok) {
     var p = $('loadStatus');
@@ -1239,6 +1348,17 @@ details.loader summary{cursor:pointer;min-height:2.8rem;display:flex;align-items
     } catch (e) {
       status('❌ ' + e.message, false);
     }
+  });
+  $('btnExport').addEventListener('click', function () {
+    $('inJson').value = toLrc(song);
+    $('inVideo').value = song.youtubeId;
+    $('inTitle').value = song.title;
+    $('inArtist').value = song.artist;
+    status('Campo preenchido com a música atual. Complete a tradução e o apoio depois de cada "|" e clique em Carregar música.', true);
+  });
+  $('btnExample').addEventListener('click', function () {
+    $('inJson').value = EXAMPLE_LRC;
+    status('Exemplo inserido no campo. Clique em "Carregar música" para ver o resultado (isso substitui a música atual).', true);
   });
   $('btnDefault').addEventListener('click', function () {
     var s = normalize(DEFAULT_SONG);
@@ -1266,6 +1386,7 @@ details.loader summary{cursor:pointer;min-height:2.8rem;display:flex;align-items
   setSong(first);
   if (IS_FILE) setupFileMode();
   setMode(mode);
+  setZen(store.get('zen') === '1');
   applyFont();
 
   window.addEventListener('resize', fitLyrics);
